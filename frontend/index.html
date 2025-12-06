@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroNet Manager - Network Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 MicroNet Manager</h1>
+            <p>Cloud Networking & Microservices Dashboard</p>
+            
+            <!-- Role Selector -->
+            <div class="role-selector">
+                <label for="user-role">Select Your Role:</label>
+                <select id="user-role" onchange="updateUIForRole()">
+                    <option value="client">👤 Client</option>
+                    <option value="manager">👑 Manager</option>
+                </select>
+                <span id="current-role-display" class="role-badge client">Client</span>
+            </div>
+        </header>
+
+        <!-- Service Status Section -->
+        <section class="status-section">
+            <h2>📊 Service Health Status</h2>
+            <div class="services-grid">
+                <div class="service-card" id="user-service">
+                    <h3>👤 User Service</h3>
+                    <div class="status" id="user-status">🔴 STOPPED</div>
+                    <div class="type">REST • Port 8001</div>
+                    <div class="service-controls manager-only">
+                        <button onclick="startService('user')" class="success" id="start-user">▶ Start</button>
+                        <button onclick="stopService('user')" class="danger" id="stop-user">⏹ Stop</button>
+                    </div>
+                </div>
+                <div class="service-card" id="product-service">
+                    <h3>🛍️ Product Service</h3>
+                    <div class="status" id="product-status">🔴 STOPPED</div>
+                    <div class="type">REST • Port 8002</div>
+                    <div class="service-controls manager-only">
+                        <button onclick="startService('product')" class="success" id="start-product">▶ Start</button>
+                        <button onclick="stopService('product')" class="danger" id="stop-product">⏹ Stop</button>
+                    </div>
+                </div>
+                <div class="service-card" id="order-service">
+                    <h3>📦 Order Service</h3>
+                    <div class="status" id="order-status">🔴 STOPPED</div>
+                    <div class="type">REST • Port 8003</div>
+                    <div class="service-controls manager-only">
+                        <button onclick="startService('order')" class="success" id="start-order">▶ Start</button>
+                        <button onclick="stopService('order')" class="danger" id="stop-order">⏹ Stop</button>
+                    </div>
+                </div>
+                <div class="service-card" id="gateway-service">
+                    <h3>🌐 API Gateway</h3>
+                    <div class="status" id="gateway-status">🟢 RUNNING</div>
+                    <div class="type">Gateway • Port 8000</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Operations Section -->
+        <section class="data-section">
+            <h2>🛠️ Data Operations</h2>
+            <div class="data-controls">
+                <div class="data-group">
+                    <h3>👤 User Operations</h3>
+                    <button onclick="createUser()" class="outline">Create User</button>
+                    <button onclick="listUsers()" class="outline">List Users</button>
+                    <button onclick="searchUsers()" class="outline">Search Users</button>
+                </div>
+                
+                <div class="data-group">
+                    <h3>🛍️ Product Operations</h3>
+                    <button onclick="createProduct()" class="outline">Create Product</button>
+                    <button onclick="listProducts()" class="outline">List Products</button>
+                    <button onclick="purchaseProduct()" class="outline">Purchase Product</button>
+                </div>
+                
+                <div class="data-group">
+                    <h3>📦 Order Operations</h3>
+                    <button onclick="createOrder()" class="outline">Create Order</button>
+                    <button onclick="listOrders()" class="outline">List Orders</button>
+                    <button onclick="updateOrderStatus()" class="outline">Update Order</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Services Section -->
+        <section class="test-section">
+            <h2>🧪 Test Microservices</h2>
+            <div class="test-buttons">
+                <button onclick="testUserService()">Test User Service (REST)</button>
+                <button onclick="testProductService()">Test Product Service (REST)</button>
+                <button onclick="testOrderService()">Test Order Service (REST)</button>
+                <button onclick="testLoadBalancing()">Test Load Balancing</button>
+                <button onclick="testAllServices()" class="success">Test All Services</button>
+            </div>
+            <div class="results" id="test-results">
+                Results will appear here...
+            </div>
+        </section>
+
+        <!-- Network Management Section -->
+        <section class="management-section manager-only">
+            <h2>⚙️ Network Management (Managers Only)</h2>
+            <div class="management-controls">
+                <div class="control-group">
+                    <h3>Service Control</h3>
+                    <select id="service-select">
+                        <option value="user">User Service</option>
+                        <option value="product">Product Service</option>
+                        <option value="order">Order Service</option>
+                    </select>
+                    <button onclick="simulateFailure()" class="danger">Simulate Failure</button>
+                    <button onclick="recoverService()" class="success">Recover Service</button>
+                </div>
+                
+                <div class="control-group">
+                    <h3>System Info</h3>
+                    <div id="system-info">
+                        <p>Total Requests: <span id="total-requests">0</span></p>
+                        <p>Load Balancer State: <span id="lb-state">0</span></p>
+                        <p>Active Connections: <span id="active-connections">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WebSocket ChatOps Section -->
+        <section class="chatops-section">
+            <h2>💬 Real-time ChatOps (WebSocket)</h2>
+            <div class="chatops-container">
+                <div class="chatops-status">
+                    <span>Role: <span id="current-role-chat">client</span></span>
+                    <span id="websocket-status" class="disconnected">🔴 Disconnected</span>
+                    <button onclick="connectWebSocket()" class="success">Connect WebSocket</button>
+                    <button onclick="disconnectWebSocket()" class="danger">Disconnect</button>
+                </div>
+                
+                <div class="chatops-chat" id="chatops-chat">
+                    <div class="message system">
+                        <span class="timestamp" id="current-time"></span>
+                        <span class="content">Welcome to WebSocket ChatOps! Select your role and click "Connect WebSocket" to start.</span>
+                    </div>
+                </div>
+                
+                <div class="chatops-input">
+                    <input type="text" id="chatops-input" placeholder="Type a command (status, help, create user John john@example.com)" disabled>
+                    <button onclick="sendChatOpsCommand()" id="send-button" disabled>Send</button>
+                    <button onclick="clearChat()" class="danger">Clear Chat</button>
+                </div>
+                
+                <div class="quick-commands">
+                    <h4>Quick Commands:</h4>
+                    <button onclick="sendQuickCommand('status')" class="outline">status</button>
+                    <button onclick="sendQuickCommand('help')" class="outline">help</button>
+                    <button onclick="sendQuickCommand('users')" class="outline">users</button>
+                    
+                    <div class="manager-commands manager-only">
+                        <h4>Manager Commands:</h4>
+                        <button onclick="sendQuickCommand('start user')" class="outline success">start user</button>
+                        <button onclick="sendQuickCommand('stop user')" class="outline danger">stop user</button>
+                        <button onclick="sendQuickCommand('fail user')" class="outline danger">fail user</button>
+                        <button onclick="sendQuickCommand('recover user')" class="outline success">recover user</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram -->
+        <section class="architecture-section">
+            <h2>🏗️ System Architecture</h2>
+            <div class="architecture">
+                <div class="arch-row">
+                    <div class="arch-component client">Web Client</div>
+                    <div class="arrow">→</div>
+                    <div class="arch-component gateway">API Gateway</div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-component service">User Service (REST)</div>
+                    <div class="arch-component service">Product Service (REST)</div>
+                    <div class="arch-component service">Order Service (REST)</div>
+                </div>
+                <div class="arch-row">
+                    <div class="arch-component websocket">WebSocket ChatOps</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-time Logs -->
+        <section class="logs-section">
+            <h2>📝 Real-time Activity</h2>
+            <div class="logs" id="activity-logs">
+                <div class="log-entry">System initialized. Waiting for activity...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
