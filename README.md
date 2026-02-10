@@ -1,4 +1,4 @@
-## MicroNet Manager
+## Microservices Network Manager
 ### A cloud-native distributed systems platform demonstrating modern networking and microservices architecture.
 
 ## Key Features
