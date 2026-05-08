@@ -1,10 +1,11 @@
-# MicroServices Network Manager
+# CS3001 Microservices Network Manager
 
-A cloud-native microservices management platform with an integrated API gateway and real-time ChatOps interface. This project demonstrates a complete microservices architecture with service orchestration, load balancing, and interactive network management capabilities.
+## Course: CS3001 Computer Networks
+## Instructor & Project Supervisor: Dr. Farrukh Salim Shaikh
 
-## Project Overview
+## Overview
 
-MicroNet Manager is a comprehensive system for managing and monitoring microservices in a networked environment. It features:
+A cloud-native microservices management platform with an integrated API gateway and real-time ChatOps interface. This project demonstrates a complete microservices architecture with service orchestration, load balancing, and interactive network management capabilities. It features:
 
 - **API Gateway**: Centralized entry point for all microservices with load balancing and health monitoring
 - **Three Core Microservices**: User, Product, and Order services with RESTful APIs
