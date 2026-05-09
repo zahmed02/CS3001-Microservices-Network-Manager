@@ -1,7 +1,7 @@
-# CS3001 Microservices Network Manager
+# Microservices Network Manager
 
 ## Course: CS3001 Computer Networks
-## Instructor & Project Supervisor: Dr. Farrukh Salim Shaikh
+## Instructor: Dr. Farrukh Salim Shaikh
 
 ## Overview
 
