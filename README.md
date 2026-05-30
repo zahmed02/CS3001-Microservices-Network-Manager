@@ -5,7 +5,7 @@
 
 ## Overview
 
-A cloud-native microservices management platform with an integrated API gateway and real-time ChatOps interface. This project demonstrates a complete microservices architecture with service orchestration, load balancing, and interactive network management capabilities. It features:
+A cloud-native microservices management platform with an integrated API gateway and real-time ChatOps interface. This project demonstrates a complete microservices architecture with service orchestration, load balancing, and interactive network management capabilities. It features the following:
 
 - **API Gateway**: Centralized entry point for all microservices with load balancing and health monitoring
 - **Three Core Microservices**: User, Product, and Order services with RESTful APIs
